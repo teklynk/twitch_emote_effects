@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Twitch Emote-Effects</title>
+    <script src="assets/js/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="assets/css/bootstrap452.min.css">
+    <link rel="stylesheet" href="assets/css/dark.min.css">
+    <link rel="apple-touch-icon" sizes="57x57" href="assets/images/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="assets/images/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="assets/images/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="assets/images/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="assets/images/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="assets/images/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="assets/images/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="assets/images/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/images/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="assets/images/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
+</head>
+<style>
+    .hide {
+        display: none;
+    }
+    #overlaylink {
+        word-break: break-word;
+        word-wrap: normal;
+    }
+    .emote_global {
+        cursor: pointer;
+    }
+</style>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-10">
+            <h1 class="h3 pt-4 pl-lg-4 text-center">Twitch Emote-Effects</h1>
+        </div>
+        <div class="col-2 text-center">
+            <img src="assets/images/robot.gif" style="width: 60px;" alt="">
+        </div>
+    </div>
+    <br>
+    <div class="form-label-group mb-2">
+        <label for="mainAccount">Twitch Account</label>
+        <input type="text" id="mainAccount" class="form-control">
+    </div>
+    <h2>Options</h2>
+    <div class="form-group mb-2">
+        <label for="command">Event</label>
+        <select class="form-control" id="command">
+            <option value="cheer">Cheer</option>
+            <option value="hosted">Hosted</option>
+            <option value="raided">Raided</option>
+            <option value="resub">Resub</option>
+            <option value="subscription">Subscription</option>
+        </select>
+    </div>
+    <div class="form-label-group mb-2">
+        <label for="emotes">Emotes (emote id's)</label>
+        <input type="text" readonly id="emotes" value="" class="form-control">
+    </div>
+    <div class="form-label-group mb-2">
+        <label for="emotesearch">Search For Emotes</label>
+        <input type="text" id="emotesearch" value="" class="form-control" placeholder="Search by channel name">
+    </div>
+    <div id="userEmoteIcons" class="mb-4"></div>
+    <div id="emoteIcons" class="mb-4"></div>
+    <div class="form-group range-slider mb-2">
+        <label for="limit">Number of Emotes to Show</label>
+        <input type="range" max="50" min="1" step="1" class="form-control range-slider-range" id="limit"
+               value="20" style="height: 0;">
+        <small class="text-muted range-slider-value"></small><small class="text-muted range-slider-value">&nbsp;Emotes</small>
+    </div>
+    <div class="form-group range-slider mb-2">
+        <label for="repeat">Repeat</label>
+        <input type="range" max="100" min="1" step="1" class="form-control range-slider-range" id="repeat"
+               value="1" style="height: 0;">
+        <small class="text-muted range-slider-value"></small><small class="text-muted range-slider-value">&nbsp;Times</small>
+    </div>
+    <div class="form-group range-slider mb-2">
+        <label for="repeatSpeed">Repeat Every</label>
+        <input type="range" max="30" min="1" step="1" class="form-control range-slider-range" id="repeatSpeed"
+               value="1" style="height: 0;">
+        <small class="text-muted range-slider-value"></small><small class="text-muted range-slider-value">&nbsp;Seconds</small>
+    </div>
+    <div class="form-group mb-2">
+        <label for="emoteSize">Default Sizes</label>
+        <select class="form-control" id="emoteSize">
+            <option value="1" selected>28x28</option>
+            <option value="2">56x56</option>
+            <option value="3">112x112</option>
+        </select>
+    </div>
+    <div class="form-group mb-2">
+        <label for="effect">Effects</label>
+        <select class="form-control" id="effect">
+            <option value="explode">Explode</option>
+        </select>
+    </div>
+
+    <br>
+    <button class="btn btn-lg btn-success btn-block" id="generate_button" type="button">Generate Overlay Link</button>
+    <br>
+    <div id="overlaylink" class="hide"></div>
+</div>
+<script>
+    $(document).ready(function () {
+
+        // Twitch API: Get User emotes
+        let getUserEmotes = function (enteredChannel, callback) {
+            let urlU = "https://twitchapi.teklynk.com/getuseremotes.php?channel=" + enteredChannel;
+            let xhrU = new XMLHttpRequest();
+            xhrU.open("GET", urlU);
+            xhrU.onreadystatechange = function () {
+                if (xhrU.readyState === 4) {
+                    callback(JSON.parse(xhrU.responseText));
+                    return true;
+                } else {
+                    return false;
+                }
+            };
+            xhrU.send();
+        };
+
+        // Twitch API: Get global emotes
+        let getGlobalEmotes = function (callback) {
+            let urlG = "https://twitchapi.teklynk.com/getglobalemotes.php";
+            let xhrG = new XMLHttpRequest();
+            xhrG.open("GET", urlG);
+            xhrG.onreadystatechange = function () {
+                if (xhrG.readyState === 4) {
+                    callback(JSON.parse(xhrG.responseText));
+                    return true;
+                } else {
+                    return false;
+                }
+            };
+            xhrG.send();
+        };
+
+        // Display global emotes on load
+        getGlobalEmotes(function (info) {
+            $.each(info.data, function(i, gEmote) {
+                $("<img data-id='" + gEmote.id + "' alt='" + gEmote.name + "' title='" + gEmote.name + "' src='https://static-cdn.jtvnw.net/emoticons/v2/" + gEmote.id + "/default/dark/1.0' class='emote_global m-1 p-1'/>").appendTo("#emoteIcons");
+            });
+
+            $("#emoteIcons img.emote_global").on('click', function() {
+                document.getElementById("emotes").value += $(this).attr("data-id") + ",";
+                $(this).css('background-color', 'purple');
+            });
+        });
+
+        // Display user emotes on keyup
+        $("#emotesearch").on('keyup', function() {
+
+            let searchterm = $("#emotesearch").val();
+
+            getUserEmotes(searchterm, function (userinfo) {
+                $.each(userinfo.data, function(i, uEmote) {
+                    $("<img data-id='" + uEmote.id + "' alt='" + uEmote.name + "' title='" + uEmote.name + "' src='https://static-cdn.jtvnw.net/emoticons/v2/" + uEmote.id + "/default/dark/1.0' class='emote_user m-1 p-1'/>").appendTo("#userEmoteIcons");
+                });
+
+                $("#userEmoteIcons img.emote_user").on('click', function() {
+                    document.getElementById("emotes").value += $(this).attr("data-id") + ",";
+                    $(this).css('background-color', 'purple');
+                });
+            });
+        });
+
+        let rangeSlider = function rangeSlider() {
+            let slider = $('.range-slider'),
+                range = $('.range-slider-range'),
+                value = $('.range-slider-value');
+
+            slider.each(function () {
+
+                value.each(function () {
+                    let value = $(this).prev().attr('value');
+                    $(this).html(value);
+                });
+
+                range.on('input', function () {
+                    $(this).next(value).html(this.value);
+                });
+            });
+        };
+
+        rangeSlider();
+
+        document.getElementById("generate_button").addEventListener("click", function (e) {
+            let mainAccount = document.getElementById("mainAccount").value.trim().toLowerCase();
+            let limit = document.getElementById("limit").value.trim().toLowerCase();
+            let emoteSize = document.getElementById("emoteSize").value.trim().toLowerCase();
+            let effect = document.getElementById("effect").value.trim().toLowerCase();
+            let repeat = document.getElementById("repeat").value.trim().toLowerCase();
+            let repeatSpeed = document.getElementById("repeatSpeed").value.trim().toLowerCase();
+            let emotes = document.getElementById("emotes").value.trim().toLowerCase();
+            let command = document.getElementById("command").value.trim().toLowerCase();
+            if (!mainAccount) {
+                alert('Twitch username is not set');
+            }
+            //build overlay url
+            if (mainAccount) {
+                let srcURL = window.location.protocol + "//" + window.location.host + window.location.pathname;
+                let fullUrl = srcURL + "effects.html?channel=" + mainAccount + "&limit=" + limit + "&emoteSize=" + emoteSize + "&repeat=" + repeat + "&repeatSpeed=" + repeatSpeed + "&effect=" + effect + "&emotes=" + emotes + "&command=" + command;
+                document.getElementById("overlaylink").classList.remove("hide");
+                document.getElementById("overlaylink").innerHTML = "<p>Add this link as a browser source in OBS. Set width to 1920x1080 and frame rate to 60.<br>" +
+                    "<a href='" + fullUrl + "' target='_blank'>" + fullUrl + "</a></p>";
+            }
+        });
+    });
+
+</script>
+<div class="text-right m-4"><a class="btn btn-link" href="https://github.com/teklynk/twitch_chat_emotes"
+                               target="_blank">Github</a></div>
+</body>
+</html>
