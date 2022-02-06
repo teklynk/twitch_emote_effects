@@ -29,7 +29,7 @@
         word-break: break-word;
         word-wrap: normal;
     }
-    .emote_global {
+    .emote_global, .emote_user {
         cursor: pointer;
     }
 </style>
@@ -60,7 +60,7 @@
         </select>
     </div>
     <div class="form-label-group mb-2">
-        <label for="emotes">Emotes (emote id's)</label>
+        <label for="emotes">Emotes <small class="btn-link" id="clearEmotes" style="margin-left: 12px; cursor:pointer;">(clear)</small></label>
         <input type="text" readonly id="emotes" value="" class="form-control">
     </div>
     <div class="form-label-group mb-2">
@@ -109,6 +109,19 @@
 </div>
 <script>
     $(document).ready(function () {
+        $("#clearEmotes").on('click', function() {
+            //function clearEmotes() {
+                document.getElementById("emotes").value = '';
+                $('.emote_global').css('background-color', '');
+                $('.emote_user').css('background-color', '');
+                $("#overlaylink").addClass("hide");
+            //}
+        });
+
+        // Check if any input fields have changed
+        $(":text,textarea,:checkbox,input[type=range]").on('change', function (e) {
+            $("#overlaylink").addClass("hide");
+        });
 
         // Twitch API: Get User emotes
         let getUserEmotes = function (enteredChannel, callback) {
@@ -151,6 +164,7 @@
             $("#emoteIcons img.emote_global").on('click', function() {
                 document.getElementById("emotes").value += $(this).attr("data-id") + ",";
                 $(this).css('background-color', 'purple');
+                $("#overlaylink").addClass("hide");
             });
         });
 
@@ -167,6 +181,7 @@
                 $("#userEmoteIcons img.emote_user").on('click', function() {
                     document.getElementById("emotes").value += $(this).attr("data-id") + ",";
                     $(this).css('background-color', 'purple');
+                    $("#overlaylink").addClass("hide");
                 });
             });
         });
