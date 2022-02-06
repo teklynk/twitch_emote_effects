@@ -32,6 +32,10 @@
     .emote_global, .emote_user {
         cursor: pointer;
     }
+    #userEmoteIcons {
+        border-bottom: solid 1px #000;
+        padding-bottom: 24px;
+    }
 </style>
 <body>
 <div class="container">
@@ -67,7 +71,7 @@
         <label for="emotesearch">Search For Emotes</label>
         <input type="text" id="emotesearch" value="" class="form-control" placeholder="Search by channel name">
     </div>
-    <div id="userEmoteIcons" class="mb-4"></div>
+    <div id="userEmoteIcons" class="mb-4 hide"></div>
     <div id="emoteIcons" class="mb-4"></div>
     <div class="form-group range-slider mb-2">
         <label for="limit">Number of Emotes to Show</label>
@@ -111,7 +115,9 @@
     $(document).ready(function () {
         $("#clearEmotes").on('click', function() {
             //function clearEmotes() {
-                document.getElementById("emotes").value = '';
+                if (document.getElementById("emotes").value > '') {
+                    document.getElementById("emotes").value = '';
+                }
                 $('.emote_global').css('background-color', '');
                 $('.emote_user').css('background-color', '');
                 $("#overlaylink").addClass("hide");
@@ -171,19 +177,33 @@
         // Display user emotes on keyup
         $("#emotesearch").on('keyup', function() {
 
-            let searchterm = $("#emotesearch").val();
+            $('.emote_user').remove(); // remove previous results
 
-            getUserEmotes(searchterm, function (userinfo) {
-                $.each(userinfo.data, function(i, uEmote) {
-                    $("<img data-id='" + uEmote.id + "' alt='" + uEmote.name + "' title='" + uEmote.name + "' src='https://static-cdn.jtvnw.net/emoticons/v2/" + uEmote.id + "/default/dark/1.0' class='emote_user m-1 p-1'/>").appendTo("#userEmoteIcons");
-                });
+            setTimeout(function() {
 
-                $("#userEmoteIcons img.emote_user").on('click', function() {
-                    document.getElementById("emotes").value += $(this).attr("data-id") + ",";
-                    $(this).css('background-color', 'purple');
-                    $("#overlaylink").addClass("hide");
-                });
-            });
+                let searchterm = $("#emotesearch").val();
+
+                if (searchterm.length > 4) {
+                    getUserEmotes(searchterm, function (userinfo) {
+                        if (userinfo.data.length > '') {
+
+                            $('.emote_user').remove(); // remove previous results
+
+                            $.each(userinfo.data, function(i, uEmote) {
+                                $("<img data-id='" + uEmote.id + "' alt='" + uEmote.name + "' title='" + uEmote.name + "' src='https://static-cdn.jtvnw.net/emoticons/v2/" + uEmote.id + "/default/dark/1.0' class='emote_user m-1 p-1'/>").appendTo("#userEmoteIcons");
+                            });
+
+                            $("#userEmoteIcons").removeClass("hide");
+
+                            $("#userEmoteIcons img.emote_user").on('click', function() {
+                                document.getElementById("emotes").value += $(this).attr("data-id") + ",";
+                                $(this).css('background-color', 'purple');
+                                $("#overlaylink").addClass("hide");
+                            });
+                        }
+                    });
+                }
+            }, 1000);
         });
 
         let rangeSlider = function rangeSlider() {
