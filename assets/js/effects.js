@@ -37,21 +37,7 @@ $(document).ready(function () {
 
     let effect = getUrlParameter('effect').toLowerCase().trim();
 
-    let speed = getUrlParameter('speed').toLowerCase().trim();
-
-    if (speed) {
-        let style = document.createElement('style');
-
-        style.type = 'text/css';
-
-        let alertCustomStyles = '\
-        .explosion .particle {\
-            animation: grow ' + parseInt(speed) + 's ease-in-out, out ' + parseInt(speed) + 's reverse forwards;\
-        }';
-
-        style.innerHTML = alertCustomStyles;
-        document.getElementsByTagName('head')[0].appendChild(style);
-    }
+    let speed = getUrlParameter('speed').toLowerCase().trim() ? getUrlParameter('speed').toLowerCase().trim() : '4';
 
     if (!effect) {
         alert('effect is not set in the URL');
@@ -132,8 +118,29 @@ $(document).ready(function () {
     }
 
     function doEffect(effect) {
-        if (effect === 'explode') {
+        if (effect === 'explode' || effect === 'explode2') {
+            let alertCustomStyles;
+
+            let style = document.createElement('style');
+
+            style.type = 'text/css';
+
+            if (effect === 'explode') {
+                alertCustomStyles = '.explosion .particle {\
+                    animation: grow ' + parseInt(speed) + 's ease-in-out, out ' + parseInt(speed) + 's reverse forwards;\
+                }';
+            } else if (effect === 'explode2') {
+                alertCustomStyles = '.explosion .particle {\
+                    animation: explode2 ' + parseInt(speed) + 's ease-in-out, shrink ' + parseInt(speed) + 's reverse forwards;\
+                }';
+            }
+
+            style.innerHTML = alertCustomStyles;
+
+            document.getElementsByTagName('head')[0].appendChild(style);
+
             let explodeTimer = setInterval(explodeCallback, repeatSpeed);
+
             let explodeTimerCnt = 0;
 
             explodeCallback();
@@ -197,4 +204,5 @@ $(document).ready(function () {
 
         }
     }
+
 });

@@ -16,7 +16,6 @@ html, body {
     width: 112px;
     height: 112px;
     background: transparent;
-    animation: grow 4s ease-in-out, out 4s reverse forwards;
 }
 
 @keyframes out {
@@ -36,5 +35,34 @@ html, body {
     }
     to {
         transform:scale(1);
+    }
+}
+
+@keyframes shrink {
+    from {
+        transform: scale(0);
+    }
+    to {
+        top: 50%;
+        left: 50%;
+        transform: scale(1.5);
+    }
+}
+
+@keyframes explode2 {
+    from {
+        transform: translateY(1);
+    }
+    to {
+        transform: translateY(2);
+    }
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
     }
 }
