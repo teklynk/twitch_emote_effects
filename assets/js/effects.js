@@ -37,7 +37,21 @@ $(document).ready(function () {
 
     let effect = getUrlParameter('effect').toLowerCase().trim();
 
-    let eventsArray = ['raided','hosted','subscription','resub','cheer'];
+    let speed = getUrlParameter('speed').toLowerCase().trim();
+
+    if (speed) {
+        let style = document.createElement('style');
+
+        style.type = 'text/css';
+
+        let alertCustomStyles = '\
+        .explosion .particle {\
+            animation: grow ' + parseInt(speed) + 's ease-in-out, out ' + parseInt(speed) + 's reverse forwards;\
+        }';
+
+        style.innerHTML = alertCustomStyles;
+        document.getElementsByTagName('head')[0].appendChild(style);
+    }
 
     if (!effect) {
         alert('effect is not set in the URL');
@@ -46,6 +60,8 @@ $(document).ready(function () {
     if (!channelName) {
         alert('channel is not set in the URL');
     }
+
+    let eventsArray = ['raided', 'hosted', 'subscription', 'resub', 'cheer'];
 
     // On click event listener - for testing
     $('body').on('click', function () {

@@ -91,6 +91,13 @@
                value="1" style="height: 0;">
         <small class="text-muted range-slider-value"></small><small class="text-muted range-slider-value">&nbsp;Seconds</small>
     </div>
+    <div class="form-group range-slider mb-2">
+        <label for="speed">Animation Speed</label>
+        <input type="range" max="30" min="1" step="1" class="form-control range-slider-range" id="speed"
+               value="4" style="height: 0;">
+        <small class="text-muted range-slider-value"></small>
+        <small class="text-muted range-slider-value">&nbsp;Seconds</small>
+    </div>
     <div class="form-group mb-2">
         <label for="emoteSize">Default Sizes</label>
         <select class="form-control" id="emoteSize">
@@ -114,14 +121,12 @@
 <script>
     $(document).ready(function () {
         $("#clearEmotes").on('click', function() {
-            //function clearEmotes() {
-                if (document.getElementById("emotes").value > '') {
-                    document.getElementById("emotes").value = '';
-                }
-                $('.emote_global').css('background-color', '');
-                $('.emote_user').css('background-color', '');
-                $("#overlaylink").addClass("hide");
-            //}
+            if (document.getElementById("emotes").value > '') {
+                document.getElementById("emotes").value = '';
+            }
+            $('.emote_global').css('background-color', '');
+            $('.emote_user').css('background-color', '');
+            $("#overlaylink").addClass("hide");
         });
 
         // Check if any input fields have changed
@@ -235,13 +240,14 @@
             let repeatSpeed = document.getElementById("repeatSpeed").value.trim().toLowerCase();
             let emotes = document.getElementById("emotes").value.trim().toLowerCase();
             let command = document.getElementById("command").value.trim().toLowerCase();
+            let speed = document.getElementById("speed").value.trim().toLowerCase();
             if (!mainAccount) {
                 alert('Twitch username is not set');
             }
             //build overlay url
             if (mainAccount) {
                 let srcURL = window.location.protocol + "//" + window.location.host + window.location.pathname;
-                let fullUrl = srcURL + "effects.html?channel=" + mainAccount + "&limit=" + limit + "&emoteSize=" + emoteSize + "&repeat=" + repeat + "&repeatSpeed=" + repeatSpeed + "&effect=" + effect + "&emotes=" + emotes + "&command=" + command;
+                let fullUrl = srcURL + "effects.html?channel=" + mainAccount + "&limit=" + limit + "&emoteSize=" + emoteSize + "&repeat=" + repeat + "&repeatSpeed=" + repeatSpeed + "&speed=" + speed + "&effect=" + effect + "&emotes=" + emotes + "&command=" + command;
                 fullUrl = fullUrl.replace("index.htmleffects.html", "effects.html");
                 document.getElementById("overlaylink").classList.remove("hide");
                 document.getElementById("overlaylink").innerHTML = "<p>Add this link as a browser source in OBS. Set width to 1920x1080 and frame rate to 60.<br>" +
