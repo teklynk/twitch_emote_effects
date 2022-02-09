@@ -9,11 +9,11 @@ This is a Twitch browser source overlay that displays multiple emotes on screen 
 
 ## Options
 
-**Trigger emotes to fire on events or chat command:**
+**Trigger emotes to fire on events or chat command**
 
-**Animation speed:**
+**Animation speed**
 
-**Set the number of emotes to display:**
+**Set the number of emotes to display**
 
 **Set the number of times that the effect happens**
 
@@ -37,13 +37,13 @@ This is a Twitch browser source overlay that displays multiple emotes on screen 
 
 **limit=integer**  Number of emotes to use.
 
-**emotes=emote_id1,emote_id2,emote_id3**  Comma separated list of emote id's.
+**emotes=string**  Comma separated list of emote id's. emote_id1,emote_id2,emote_id3
 
 **repeat=integer** The number of times that the effect should fire.
 
 **repeatSpeed=integer**  The number of seconds between repeats.
 
-**emoteSize=1,2,3**  Choose from 3 different Twitch emote sizes. Small, Medium, Large.
+**emoteSize=integer**  Choose from 3 different Twitch emote sizes. 1,2,3 (Small, Medium, Large).
 
 **command=string**  What event should fire off the effect. Defaults are (Raided, Hosted, Cheer, Subscription, Resub). You can also set this as a chat command with example: command=fireworks. Chat would then type: !fireworks to trigger the effect.
 
