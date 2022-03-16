@@ -117,6 +117,7 @@ $(document).ready(function () {
             break;
     }
 
+
     function doEffect(effect) {
         if (effect === 'explode' || effect === 'explode2') {
             let alertCustomStyles;
