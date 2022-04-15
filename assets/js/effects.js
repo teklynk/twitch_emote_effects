@@ -114,6 +114,7 @@ $(document).ready(function () {
             client.on("resub", (channel, username, months, message, userstate, methods) => {
                 doEffect(effect);
             });
+            break;
         case 'subgift':
             client.on("subgift", (channel, username, months, message, userstate, methods) => {
                 doEffect(effect);
