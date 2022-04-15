@@ -47,7 +47,7 @@ $(document).ready(function () {
         alert('channel is not set in the URL');
     }
 
-    let eventsArray = ['raided', 'hosted', 'subscription', 'resub', 'cheer'];
+    let eventsArray = ['raided', 'hosted', 'subscription', 'resub', 'subgift', 'cheer'];
 
     // On click event listener - for testing
     $('body').on('click', function () {
@@ -112,6 +112,10 @@ $(document).ready(function () {
             break;
         case 'resub':
             client.on("resub", (channel, username, months, message, userstate, methods) => {
+                doEffect(effect);
+            });
+        case 'subgift':
+            client.on("subgift", (channel, username, months, message, userstate, methods) => {
                 doEffect(effect);
             });
             break;

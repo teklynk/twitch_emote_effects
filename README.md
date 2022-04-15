@@ -45,7 +45,7 @@ This is a Twitch browser source overlay that displays multiple emotes on screen 
 
 **emoteSize=integer**  Choose from 3 different Twitch emote sizes. 1,2,3 (Small, Medium, Large).
 
-**command=string**  What event should fire off the effect. Defaults are (Raided, Hosted, Cheer, Subscription, Resub). You can also set this as a chat command with example: command=fireworks. Chat would then type: !fireworks to trigger the effect.
+**command=string**  What event should fire off the effect. Defaults are (Raided, Hosted, Cheer, Subscription, GiftSub, Resub). You can also set this as a chat command with example: command=fireworks. Chat would then type: !fireworks to trigger the effect.
 
 **effect=string**  Animation effect to use: explode,explode2
 
