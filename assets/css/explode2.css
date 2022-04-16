@@ -1,0 +1,68 @@
+html, body {
+    height: 100%;
+    overflow: hidden;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+}
+
+.explosion {
+    position: absolute;
+}
+
+.explosion .particle {
+    position: absolute;
+    width: 112px;
+    height: 112px;
+    background: transparent;
+}
+
+@keyframes out {
+    from {
+        opacity: 0;
+    }
+    to {
+        top: 50%;
+        left: 50%;
+        opacity: 1;
+    }
+}
+
+@keyframes grow {
+    from {
+        transform:scale(0);
+    }
+    to {
+        transform:scale(1);
+    }
+}
+
+@keyframes shrink {
+    from {
+        transform: scale(0);
+    }
+    to {
+        top: 50%;
+        left: 50%;
+        transform: scale(1.5);
+    }
+}
+
+@keyframes explode2 {
+    from {
+        transform: translateY(1);
+    }
+    to {
+        transform: translateY(2);
+    }
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

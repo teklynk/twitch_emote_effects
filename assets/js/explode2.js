@@ -131,11 +131,7 @@ $(document).ready(function () {
 
             style.type = 'text/css';
 
-            if (effect === 'explode') {
-                alertCustomStyles = '.explosion .particle {\
-                    animation: grow ' + parseInt(speed) + 's ease-in-out, out ' + parseInt(speed) + 's reverse forwards;\
-                }';
-            } else if (effect === 'explode2') {
+            if (effect === 'explode2') {
                 alertCustomStyles = '.explosion .particle {\
                     animation: explode2 ' + parseInt(speed) + 's ease-in-out, shrink ' + parseInt(speed) + 's reverse forwards;\
                 }';

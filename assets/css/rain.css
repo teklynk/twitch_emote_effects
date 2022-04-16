@@ -1,0 +1,40 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+div.particle {
+    width: 120px;
+    height: 120px;
+    position: absolute;
+    bottom: 100%;
+    animation-name: rain;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+div.particle_bg {
+    width: 120px;
+    height: 120px;
+    transform: rotate(250deg);
+}
+
+@keyframes rain {
+    from {
+        transform: rotate(110deg) translateX(0);
+    }
+    to {
+        transform: rotate(110deg) translateX(calc(100vh + 120px));
+    }
+}

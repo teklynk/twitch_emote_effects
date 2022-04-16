@@ -6,8 +6,33 @@
     <title>Twitch Emote Effects</title>
     <script src="assets/js/tmi.min.js"></script>
     <script src="assets/js/jquery-3.6.0.min.js"></script>
-    <script src="assets/js/effects.js"></script>
-    <link rel="stylesheet" href="assets/css/effects.css">
+    <script>
+        // Dynamically load effects css and js files
+
+        // Gets URL param values
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            let regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            let results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        let effect = getUrlParameter('effect').toLowerCase().trim();
+
+        let headID = document.getElementsByTagName("head")[0];
+
+        // JS
+        let jsNode = document.createElement('script');
+        jsNode.src = 'assets/js/' + effect + '.js';
+        headID.appendChild(jsNode);
+
+        // CSS
+        let cssNode = document.createElement('link');
+        cssNode.type = 'text/css';
+        cssNode.rel = 'stylesheet';
+        cssNode.href = 'assets/css/' + effect + '.css';
+        headID.appendChild(cssNode);
+    </script>
     <link rel="apple-touch-icon" sizes="57x57" href="assets/images/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="assets/images/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="assets/images/apple-icon-72x72.png">
@@ -29,5 +54,4 @@
 </div>
 
 </body>
-
 </html>
