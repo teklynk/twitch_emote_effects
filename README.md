@@ -6,6 +6,8 @@ This is a Twitch browser source overlay that displays multiple emotes on screen 
 
 ### [Try it here](https://twitch-emote-effects.pages.dev/)
 
+Future development can be tracked here. [https://github.com/teklynk/twitch_emote_effects/projects/1](https://github.com/teklynk/twitch_emote_effects/projects/1)
+
 
 ## Options
 
