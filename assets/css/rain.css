@@ -18,10 +18,7 @@ div.particle {
     height: 120px;
     position: absolute;
     bottom: 100%;
-    animation-name: rain;
-    animation-duration: 1s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
+    animation: rain 1s ease-in infinite;
 }
 
 div.particle_bg {
@@ -32,9 +29,38 @@ div.particle_bg {
 
 @keyframes rain {
     from {
+        padding-left: 0;
         transform: rotate(110deg) translateX(0);
     }
     to {
+        padding-left: 100px;
         transform: rotate(110deg) translateX(calc(100vh + 120px));
+    }
+}
+
+@keyframes wobble {
+    from {
+        padding-left: 0;
+    }
+    to {
+        padding-left: 100px;
+    }
+}
+
+@keyframes clockwork {
+    0% {
+        transform: rotate(0deg);
+    }
+    5% {
+        transform: rotate(-5deg);
+    }
+    45% {
+        transform: rotate(41deg);
+    }
+    50% {
+        transform: rotate(36deg);
+    }
+    100% {
+        transform: rotate(36deg);
     }
 }

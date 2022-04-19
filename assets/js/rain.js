@@ -9,9 +9,11 @@ $(document).ready(function () {
 
     let limit = getUrlParameter('limit') ? parseInt(getUrlParameter('limit')) : 20;
 
-    let emotes = getUrlParameter('emotes') ? getUrlParameter('emotes') : '555555560';
+    let emotes = getUrlParameter('emotes') ? getUrlParameter('emotes') : '25';
 
     let repeat = getUrlParameter('repeat') ? parseInt(getUrlParameter('repeat')) : 1;
+
+    let randomSize = getUrlParameter('randomSize').toLowerCase().trim();
 
     let repeatSpeed = getUrlParameter('repeatSpeed') ? parseInt(getUrlParameter('repeatSpeed')) * 1000 : 1000;
 
@@ -25,6 +27,10 @@ $(document).ready(function () {
 
     let speed = getUrlParameter('speed').toLowerCase().trim() ? getUrlParameter('speed').toLowerCase().trim() : '4';
 
+    if (!randomSize) {
+        randomSize = "false"; // Default value
+    }
+
     if (!effect) {
         alert('effect is not set in the URL');
     }
@@ -35,8 +41,17 @@ $(document).ready(function () {
 
     let eventsArray = ['raided', 'hosted', 'subscription', 'resub', 'subgift', 'cheer'];
 
-    function get_random (list) {
-        return list[Math.floor((Math.random()*list.length))];
+    function get_random_size(list) {
+        let listArray = list.split(',');
+        console.log("list length:" + listArray.length);
+        let ListItem = Math.floor(Math.random() * listArray.length + 1);
+        return ListItem.toString();
+    }
+
+    function get_random_emotes(list) {
+        let listArray = list.split(',');
+        let randNum = Math.floor(Math.random() * listArray.length);
+        return listArray[randNum];
     }
 
     // On click event listener - for testing
@@ -116,11 +131,20 @@ $(document).ready(function () {
 
         let emoteElement;
         let emoteImg;
-        let counter = 100;
-        let emotesArray = emotes.split(',');
-        let randomSize = "1,2,3";
 
-        for (let i = 0; i < counter; i++) {
+        // remove last comma from string before converting to array
+        emotes.substring(0, emotes.length - 1);
+
+        let randomSizeOptions;
+
+        for (let i = 0; i < limit; i++) {
+
+            if (randomSize === "true") {
+                randomSizeOptions = get_random_size("1,2,3");
+            } else {
+                randomSizeOptions = emoteSize;
+            }
+
             emoteElement = document.createElement("div");
             $(emoteElement).addClass('particle');
             $(emoteElement).prop('id', 'particle_' + i);
@@ -132,7 +156,7 @@ $(document).ready(function () {
             emoteElement.style.animationDuration = 1.5 + Math.random() * 0.3 + "s";
             emoteElement.style.animationDelay = Math.random() * 5 + "s";
 
-            emoteImg.style.background = "transparent url('https://static-cdn.jtvnw.net/emoticons/v2/" + get_random(emotesArray) + "/default/dark/" + get_random(randomSize) +".0') no-repeat center center";
+            emoteImg.style.background = "transparent url('https://static-cdn.jtvnw.net/emoticons/v2/" + get_random_emotes(emotes) + "/default/dark/" + randomSizeOptions + ".0') no-repeat center center";
 
             document.getElementById('container').append(emoteElement);
             document.getElementById('particle_' + i).appendChild(emoteImg);
