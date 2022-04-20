@@ -6,19 +6,10 @@
     <title>Twitch Emote Effects</title>
     <script src="assets/js/tmi.min.js"></script>
     <script src="assets/js/jquery-3.6.0.min.js"></script>
+    <script src="assets/js/global.js"></script>
     <script>
+
         // Dynamically load effects css and js files
-
-        // Gets URL param values
-        function getUrlParameter(name) {
-            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-            let regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-            let results = regex.exec(location.search);
-            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-        }
-
-        let effect = getUrlParameter('effect').toLowerCase().trim();
-
         let headID = document.getElementsByTagName("head")[0];
 
         // JS
