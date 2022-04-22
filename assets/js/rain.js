@@ -7,7 +7,6 @@ $(document).ready(function () {
 
     function get_random_size(list) {
         list = list.replace(/,\s*$/, ""); // remove last character
-        //console.log("list length:" + list);
         let listArray = list.split(',');
         let ListItem = Math.floor(Math.random() * listArray.length + 1);
         return ListItem.toString();
@@ -15,7 +14,6 @@ $(document).ready(function () {
 
     function get_random_emotes(list) {
         list = list.replace(/,\s*$/, ""); // remove last character
-        //console.log("emote list:" + list);
         let listArray = list.split(',');
         let randNum = Math.floor(Math.random() * listArray.length);
         return listArray[randNum];
@@ -48,6 +46,7 @@ $(document).ready(function () {
                 sizeOptions = emoteSize;
             }
 
+            // add these css class names to each emote size
             if (sizeOptions === "1") {
                 $(emoteImg).addClass('small');
             } else if (sizeOptions === "2") {
@@ -71,8 +70,10 @@ $(document).ready(function () {
             document.getElementById('particle_' + i).appendChild(emoteImg);
 
             // Randomly fade out each emote. All emotes are removed after duration time completes
-            setTimeout(function() {
-                $('#particle_' + i).fadeOut(1500, function() { $(this).remove(); });
+            setTimeout(function () {
+                $('#particle_' + i).fadeOut(1500, function () {
+                    $(this).remove();
+                });
             }, rand(duration / 2, duration)); // min, max
         }
 

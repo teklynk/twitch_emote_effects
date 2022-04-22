@@ -4,7 +4,7 @@
 }
 
 body {
-    background: black;
+    background: transparent;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -26,7 +26,6 @@ div.particle_bg {
     width: 112px;
     height: 112px;
     transform: rotate(270deg);
-    /*animation: y-axis 1s infinite cubic-bezier(.73,0,.33,1);*/
 }
 
 div.particle_bg.small {
@@ -68,25 +67,5 @@ div.particle_bg.rnd_lg {
     }
     to {
         transform: rotate(280deg);
-    }
-}
-
-@keyframes zigzag {
-    from {
-        left: 10px;
-    }
-    to {
-        left: 20px;
-    }
-}
-
-@keyframes x-axis {
-    50% {
-        transform: translateX(600px);
-    }
-}
-@keyframes y-axis {
-    50% {
-        transform: translateY(200px);
     }
 }

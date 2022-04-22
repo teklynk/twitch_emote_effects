@@ -26,13 +26,16 @@
     .hide {
         display: none;
     }
+
     #overlaylink {
         word-break: break-word;
         word-wrap: normal;
     }
+
     .emote_global, .emote_user {
         cursor: pointer;
     }
+
     #userEmoteIcons {
         border-bottom: solid 1px #000;
         padding-bottom: 24px;
@@ -50,6 +53,7 @@
             </li>
         </ul>
     </div>
+
     <div class="row">
         <div class="col-10">
             <h1 class="h3 pt-4 pl-lg-4 text-center">Twitch Emote-Effects</h1>
@@ -59,11 +63,14 @@
         </div>
     </div>
     <br>
+
     <div class="form-label-group mb-2">
         <label for="mainAccount">Twitch Account</label>
         <input type="text" id="mainAccount" class="form-control">
     </div>
+
     <h2>Options</h2>
+
     <div class="form-group mb-2">
         <label for="command">Event</label>
         <select class="form-control" id="command">
@@ -75,55 +82,86 @@
             <option value="subscription">Subscription</option>
         </select>
     </div>
-    <div class="form-label-group mb-2">
-        <label for="emotes">Emotes <small class="btn-link" id="clearEmotes" style="margin-left: 12px; cursor:pointer;">(clear)</small></label>
+
+    <div class="form-group mb-2">
+        <label for="effect">Effects</label>
+        <select class="form-control" id="effect">
+            <option value="">------</option>
+            <option value="explode">Explode</option>
+            <option value="explode2">Explode V2</option>
+            <option value="rain">Rain</option>
+        </select>
+    </div>
+
+    <div class="form-label-group mb-2 hide search">
+        <label for="emotes">Emotes
+            <small class="btn-link" id="clearEmotes" style="margin-left: 12px; cursor:pointer;">(clear)</small>
+        </label>
         <input type="text" readonly id="emotes" value="" class="form-control">
     </div>
-    <div class="form-label-group mb-2">
+
+    <div class="form-label-group mb-2 hide search">
         <label for="emotesearch">Search For Emotes</label>
         <input type="text" id="emotesearch" value="" class="form-control" placeholder="Search by channel name">
     </div>
-    <div id="userEmoteIcons" class="mb-4 hide"></div>
-    <div id="emoteIcons" class="mb-4"></div>
-    <div class="form-group range-slider mb-2">
+
+    <div id="userEmoteIcons" class="mb-4 hide search"></div>
+    <div id="emoteIcons" class="mb-4 hide search"></div>
+
+    <div class="form-group range-slider mb-2 hide search">
         <label for="limit">Number of Emotes to Show</label>
-        <input type="range" max="50" min="1" step="1" class="form-control range-slider-range" id="limit"
+        <input type="range" max="100" min="1" step="1" class="form-control range-slider-range" id="limit"
                value="20" style="height: 0;">
-        <small class="text-muted range-slider-value"></small><small class="text-muted range-slider-value">&nbsp;Emotes</small>
+        <small class="text-muted range-slider-value"></small>
+        <small class="text-muted range-slider-value">&nbsp;Emotes</small>
     </div>
-    <div class="form-group range-slider mb-2">
+
+    <div class="form-group range-slider mb-2 hide explode">
         <label for="repeat">Repeat</label>
         <input type="range" max="100" min="1" step="1" class="form-control range-slider-range" id="repeat"
                value="1" style="height: 0;">
-        <small class="text-muted range-slider-value"></small><small class="text-muted range-slider-value">&nbsp;Times</small>
+        <small class="text-muted range-slider-value"></small>
+        <small class="text-muted range-slider-value">&nbsp;Times</small>
     </div>
-    <div class="form-group range-slider mb-2">
+
+    <div class="form-group range-slider mb-2 hide explode">
         <label for="repeatSpeed">Repeat Every</label>
         <input type="range" max="30" min="1" step="1" class="form-control range-slider-range" id="repeatSpeed"
                value="1" style="height: 0;">
-        <small class="text-muted range-slider-value"></small><small class="text-muted range-slider-value">&nbsp;Seconds</small>
+        <small class="text-muted range-slider-value"></small>
+        <small class="text-muted range-slider-value">&nbsp;Seconds</small>
     </div>
-    <div class="form-group range-slider mb-2">
-        <label for="speed">Animation Speed</label>
+
+    <div class="form-group range-slider mb-2 hide rain">
+        <label for="duration">Duration</label>
+        <input type="range" max="120" min="1" step="1" class="form-control range-slider-range" id="duration"
+               value="30" style="height: 0;">
+        <small class="text-muted range-slider-value"></small>
+        <small class="text-muted range-slider-value">&nbsp;Seconds</small>
+    </div>
+
+    <div class="form-group range-slider mb-2 hide default">
+        <label for="speed">Speed</label>
         <input type="range" max="30" min="1" step="1" class="form-control range-slider-range" id="speed"
                value="4" style="height: 0;">
         <small class="text-muted range-slider-value"></small>
         <small class="text-muted range-slider-value">&nbsp;Seconds</small>
     </div>
-    <div class="form-group mb-2">
-        <label for="emoteSize">Default Sizes</label>
+
+    <div class="form-group mb-2 hide default">
+        <label for="emoteSize">Size</label>
         <select class="form-control" id="emoteSize">
-            <option value="1" selected>28x28</option>
+            <option value="1">28x28</option>
             <option value="2">56x56</option>
-            <option value="3">112x112</option>
+            <option value="3" selected>112x112</option>
         </select>
     </div>
-    <div class="form-group mb-2">
-        <label for="effect">Effects</label>
-        <select class="form-control" id="effect">
-            <option value="explode">Explode</option>
-            <option value="explode2">Explode V2</option>
-        </select>
+
+    <div class="form-check hide rain">
+        <input class="form-check-input" type="checkbox" value="" id="randomSize">
+        <label class="form-check-label" for="randomSize">
+            Random Sizes
+        </label>
     </div>
 
     <br>
@@ -133,7 +171,40 @@
 </div>
 <script>
     $(document).ready(function () {
-        $("#clearEmotes").on('click', function() {
+
+        $("#effect").on('click', function () {
+
+            if (this.value > '') {
+                $(".search").removeClass("hide");
+                $(".default").removeClass("hide");
+            } else {
+                $(".search").addClass("hide");
+                $(".default").addClass("hide");
+            }
+
+            if (this.value === 'rain') {
+                $(".rain").removeClass("hide");
+            } else {
+                $(".rain").addClass("hide");
+            }
+
+            if (this.value === 'explode' || this.value === 'explode2') {
+                $(".explode").removeClass("hide");
+            } else {
+                $(".explode").addClass("hide");
+            }
+
+        });
+
+        $("#randomSize").on('click', function () {
+            if ($("#randomSize").prop('checked')) {
+                $("#emoteSize").attr('disabled', 'disabled');
+            } else {
+                $("#emoteSize").removeAttr("disabled");
+            }
+        });
+
+        $("#clearEmotes").on('click', function () {
             if (document.getElementById("emotes").value > '') {
                 document.getElementById("emotes").value = '';
             }
@@ -181,11 +252,11 @@
 
         // Display global emotes on load
         getGlobalEmotes(function (info) {
-            $.each(info.data, function(i, gEmote) {
+            $.each(info.data, function (i, gEmote) {
                 $("<img data-id='" + gEmote.id + "' alt='" + gEmote.name + "' title='" + gEmote.name + "' src='https://static-cdn.jtvnw.net/emoticons/v2/" + gEmote.id + "/default/dark/1.0' class='emote_global m-1 p-1'/>").appendTo("#emoteIcons");
             });
 
-            $("#emoteIcons img.emote_global").on('click', function() {
+            $("#emoteIcons img.emote_global").on('click', function () {
                 document.getElementById("emotes").value += $(this).attr("data-id") + ",";
                 $(this).css('background-color', 'purple');
                 $("#overlaylink").addClass("hide");
@@ -193,11 +264,11 @@
         });
 
         // Display user emotes on keyup
-        $("#emotesearch").on('keyup', function() {
+        $("#emotesearch").on('keyup', function () {
 
             $('.emote_user').remove(); // remove previous results
 
-            setTimeout(function() {
+            setTimeout(function () {
 
                 let searchterm = $("#emotesearch").val();
 
@@ -207,13 +278,13 @@
 
                             $('.emote_user').remove(); // remove previous results
 
-                            $.each(userinfo.data, function(i, uEmote) {
+                            $.each(userinfo.data, function (i, uEmote) {
                                 $("<img data-id='" + uEmote.id + "' alt='" + uEmote.name + "' title='" + uEmote.name + "' src='https://static-cdn.jtvnw.net/emoticons/v2/" + uEmote.id + "/default/dark/1.0' class='emote_user m-1 p-1'/>").appendTo("#userEmoteIcons");
                             });
 
                             $("#userEmoteIcons").removeClass("hide");
 
-                            $("#userEmoteIcons img.emote_user").on('click', function() {
+                            $("#userEmoteIcons img.emote_user").on('click', function () {
                                 document.getElementById("emotes").value += $(this).attr("data-id") + ",";
                                 $(this).css('background-color', 'purple');
                                 $("#overlaylink").addClass("hide");
@@ -252,15 +323,18 @@
             let repeat = document.getElementById("repeat").value.trim().toLowerCase();
             let repeatSpeed = document.getElementById("repeatSpeed").value.trim().toLowerCase();
             let emotes = document.getElementById("emotes").value.trim().toLowerCase();
+            emotes = emotes.replace(/,\s*$/, ""); // remove last character
             let command = document.getElementById("command").value.trim().toLowerCase();
             let speed = document.getElementById("speed").value.trim().toLowerCase();
+            let duration = document.getElementById("duration").value.trim().toLowerCase();
+            let randomSize = document.getElementById("randomSize").checked;
             if (!mainAccount) {
                 alert('Twitch username is not set');
             }
             //build overlay url
             if (mainAccount) {
                 let srcURL = window.location.protocol + "//" + window.location.host + window.location.pathname;
-                let fullUrl = srcURL + "effects.html?channel=" + mainAccount + "&limit=" + limit + "&emoteSize=" + emoteSize + "&repeat=" + repeat + "&repeatSpeed=" + repeatSpeed + "&speed=" + speed + "&effect=" + effect + "&emotes=" + emotes + "&command=" + command;
+                let fullUrl = srcURL + "effects.html?channel=" + mainAccount + "&limit=" + limit + "&emoteSize=" + emoteSize + "&repeat=" + repeat + "&repeatSpeed=" + repeatSpeed + "&speed=" + speed + "&effect=" + effect + "&duration=" + duration + "&randomSize=" + randomSize + "&emotes=" + emotes + "&command=" + command;
                 fullUrl = fullUrl.replace("index.htmleffects.html", "effects.html");
                 document.getElementById("overlaylink").classList.remove("hide");
                 document.getElementById("overlaylink").innerHTML = "<p>Add this link as a browser source in OBS. Set width to 1920x1080 and frame rate to 60.<br>" +
