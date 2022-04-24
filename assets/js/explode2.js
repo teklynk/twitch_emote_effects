@@ -6,6 +6,73 @@ $(document).ready(function () {
     });
 
 
+    // TMIJS
+    const client = new tmi.Client({
+        options: {debug: true},
+        connection: {
+            reconnect: true,
+            secure: true,
+        },
+        channels: [channelName]
+    });
+
+    client.connect().catch(console.error);
+
+    // Triggers on message
+    client.on('chat', (channel, user, message, self) => {
+
+        // Ignore echoed messages.
+        if (self) {
+            return false;
+        }
+
+        let chatmessage = message.replace(/(<([^>]+)>)/ig, "");
+
+        // Alert message - Mods only
+        if (user['message-type'] === 'chat' && client.isMod(channelName, user.username) || user.username === channelName) {
+            // Check if command is not an event
+            if (eventsArray.indexOf(command) === -1) {
+                if (chatmessage.startsWith("!" + command)) {
+                    doEffect(user.username);
+                }
+            }
+
+        }
+    });
+
+    // Events
+    switch (command) {
+        case 'raided':
+            client.on("raided", (channel, username, viewers) => {
+                doEffect(username);
+            });
+            break;
+        case 'hosted':
+            client.on("hosted", (channel, username, viewers, autohost) => {
+                doEffect(username);
+            });
+            break;
+        case 'cheer':
+            client.on("cheer", (channel, userstate, message) => {
+                doEffect(null);
+            });
+            break;
+        case 'subscription':
+            client.on("subscription", (channel, username, method, message, userstate) => {
+                doEffect(username);
+            });
+            break;
+        case 'resub':
+            client.on("resub", (channel, username, months, message, userstate, methods) => {
+                doEffect(username);
+            });
+            break;
+        case 'subgift':
+            client.on("subgift", (channel, username, months, message, userstate, methods) => {
+                doEffect(username);
+            });
+            break;
+    }
 
     function doEffect(effect) {
         if (effect === 'explode' || effect === 'explode2') {

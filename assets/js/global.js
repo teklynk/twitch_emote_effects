@@ -30,6 +30,8 @@ let speed = getUrlParameter('speed').toLowerCase().trim() ? getUrlParameter('spe
 
 let eventsArray = ['raided', 'hosted', 'subscription', 'resub', 'subgift', 'cheer'];
 
+let userEmotes = getUrlParameter('userEmotes').toLowerCase().trim();
+
 if (!randomSize) {
     randomSize = "false"; // Default value
 }
@@ -40,74 +42,6 @@ if (!effect) {
 
 if (!channelName) {
     alert('channel is not set in the URL');
-}
-
-// TMIJS
-const client = new tmi.Client({
-    options: {debug: true},
-    connection: {
-        reconnect: true,
-        secure: true,
-    },
-    channels: [channelName]
-});
-
-client.connect().catch(console.error);
-
-// Triggers on message
-client.on('chat', (channel, user, message, self) => {
-
-    // Ignore echoed messages.
-    if (self) {
-        return false;
-    }
-
-    let chatmessage = message.replace(/(<([^>]+)>)/ig, "");
-
-    // Alert message - Mods only
-    if (user['message-type'] === 'chat' && client.isMod(channelName, user.username) || user.username === channelName) {
-        // Check if command is not an event
-        if (eventsArray.indexOf(command) === -1) {
-            if (chatmessage.startsWith("!" + command)) {
-                doEffect(effect);
-            }
-        }
-
-    }
-});
-
-// Events
-switch (command) {
-    case 'raided':
-        client.on("raided", (channel, username, viewers) => {
-            doEffect();
-        });
-        break;
-    case 'hosted':
-        client.on("hosted", (channel, username, viewers, autohost) => {
-            doEffect(effect);
-        });
-        break;
-    case 'cheer':
-        client.on("cheer", (channel, userstate, message) => {
-            doEffect();
-        });
-        break;
-    case 'subscription':
-        client.on("subscription", (channel, username, method, message, userstate) => {
-            doEffect();
-        });
-        break;
-    case 'resub':
-        client.on("resub", (channel, username, months, message, userstate, methods) => {
-            doEffect();
-        });
-        break;
-    case 'subgift':
-        client.on("subgift", (channel, username, months, message, userstate, methods) => {
-            doEffect();
-        });
-        break;
 }
 
 // Get random number between min and max value
@@ -123,5 +57,18 @@ function shuffleArr(array) {
     }
 }
 
-
-
+// Twitch API: Get User emotes
+let getUserEmotes = function (username, callback) {
+    let urlU = "https://twitchapi.teklynk.com/getuseremotes.php?channel=" + username;
+    let xhrU = new XMLHttpRequest();
+    xhrU.open("GET", urlU);
+    xhrU.onreadystatechange = function () {
+        if (xhrU.readyState === 4) {
+            callback(JSON.parse(xhrU.responseText));
+            return true;
+        } else {
+            return false;
+        }
+    };
+    xhrU.send();
+};
